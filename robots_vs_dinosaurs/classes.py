@@ -1,12 +1,15 @@
+import random
+
 # sudo Randomize stats of robots and dinosaurs.
 # Make attacks have a chance to miss and Spd stat?
 # Play vs cpu.
 
+
 class Robot:
     def __init__(self):
-        self.name = ''
-        self.health = 0
-        self.power_level = 0
+        self.name = ''  # assign at creation
+        self.health = random.randint(20, 40)
+        self.power_level = 100
         self.Weapon = self.Weapon()  # Make weapon type a class??
         self.attack_power = 0
         self.is_fight = False
@@ -16,19 +19,25 @@ class Robot:
         # roll to hit??
         return self.attack_power
 
+    def get_hit(self, damage):
+        self.health -= damage
+
 
 class Dinosaur:
     def __init__(self):
         self.type = ''  # Make class???
-        self.health = 0
-        self.energy = 0
+        self.health = random.randint(20, 40)
+        self.energy = 100
         self.attack_power = 0
         self.is_fight = False
 
     def attack(self):
-        # based on weapon modifies attack power?
+        # based on attack choice. Make choice every time from 3. Modified accuracy.
         # roll to hit??
         return self.attack_power
+
+    def get_hit(self, damage):
+        self.health -= damage
 
 
 class Fleet:
@@ -36,9 +45,11 @@ class Fleet:
         self.robots = []
 
     def robot_die(self):
-        if self.robots[0].health <= 0:
-            del self.robots[0]
-            print(f'{self.robots[0].name} has died.')
+        counter = 0
+        while counter < len(self.robots):
+            if self.robots[counter].health <= 0:
+                del self.robots[counter]
+                print(f'{self.robots[counter].name} has died.')
 
 
 class Weapon:
@@ -75,7 +86,7 @@ class Herd:
     def dino_die(self):
         if self.dinosaurs[0].health == 0:
             del self.dinosaurs[0]
-            print(f'{self.dinosaurs[0].name} has died.')
+            print(f'{self.dinosaurs[0].type} has died.')
 
 
 class Battlefield:
@@ -84,5 +95,11 @@ class Battlefield:
         self.robot_combatant = Robot()
         self.dino_combatant = Dinosaur()
 
-    def check_win(self):
-        pass
+    @staticmethod
+    def check_win(combatant_one, combatant_two):
+        if len(combatant_two) and len(combatant_one) == 0:
+            print(f'Draw')
+        if len(combatant_one) == 0:
+            pass
+        if len(combatant_two) == 0:
+            pass
